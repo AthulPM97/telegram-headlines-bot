@@ -1,2 +1,5 @@
 venv
 .env
+handlers/__pycache__
+utils/__pycache__
+logs.txt
