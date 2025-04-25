@@ -1,6 +1,7 @@
 from telegram import Update
 from telegram.ext import ContextTypes
 import json
+from utils import json_to_response
 
 
 async def handle_headings_json(update: Update,
@@ -14,15 +15,7 @@ async def handle_headings_json(update: Update,
             # Parse JSON
             headings_data = json.loads(json_bytes.decode('utf-8'))
 
-            # Format response
-            response_text = ""
-            for page_num, headings in headings_data.items():
-                if headings:
-                    response_text += f"\n=== Page {int(page_num) + 1} ===\n"
-                    for i, heading in enumerate(headings, start=1):
-                        response_text += f"{i}. {heading}\n"
-                else:
-                    response_text += f"\n=== Page {int(page_num) + 1} === (No headings found)\n"
+            response_text = json_to_response(headings_data)
 
             await update.message.reply_text(response_text)
 
