@@ -32,6 +32,40 @@ class MongoDBHandler:
 
         return list(self.collection.find(query))
 
+    def get_today_hindu_entries(self):
+        """Fetch entries from today containing 'hindu' in filename (case-insensitive)"""
+        today_start = datetime.now(timezone.utc).replace(hour=0,
+                                                         minute=0,
+                                                         second=0,
+                                                         microsecond=0)
+
+        query = {
+            "timestamp": {
+                "$gte": today_start
+            },
+            "$or": [
+                {
+                    "filename": {
+                        "$regex": "hindu",
+                        "$options": "i"
+                    }
+                },
+                {
+                    "filename": {
+                        "$regex": "the hindu",
+                        "$options": "i"
+                    }
+                },
+                {
+                    "filename": {
+                        "$regex": r"\bth\b",
+                        "$options": "i"
+                    }
+                }  # \b for word boundaries
+            ]
+        }
+        return list(self.collection.find(query))
+
 
 # Singleton instance
 mongo_handler = MongoDBHandler()

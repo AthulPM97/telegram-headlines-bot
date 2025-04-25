@@ -5,18 +5,20 @@ from utils import json_to_response
 from datetime import datetime
 
 
-async def today_mint(update: Update,
-                     context: ContextTypes.DEFAULT_TYPE) -> None:
+async def today_hindu(update: Update,
+                      context: ContextTypes.DEFAULT_TYPE) -> None:
     try:
-        entries = mongo_handler.get_today_mint_entries()
+        entries = mongo_handler.get_today_hindu_entries()
 
         # Get today's date in dd-mm-yyyy format
         today_date = datetime.now().strftime("%d-%m-%Y")
 
         if not entries:
             await update.message.reply_text(
-                f"No mint files found for {today_date}.")
+                f"No Hindu/TH files found for {today_date}.")
             return
+
+        # future concern: if multiple hindu editions have been uploaded to db for same date then formatting won't be proper
 
         for entry in entries:
             articles = entry['articles']

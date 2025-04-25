@@ -1,5 +1,5 @@
 from telegram.ext import ApplicationBuilder, CommandHandler, MessageHandler, filters
-from handlers import start, handle_pdf, handle_headings_json, today_mint
+from handlers import start, handle_pdf, handle_headings_json, today_mint, today_hindu
 from dotenv import load_dotenv
 import os
 
@@ -19,6 +19,7 @@ def main() -> None:
         MessageHandler(filters.Document.MimeType("application/json"),
                        handle_headings_json))
     app.add_handler(CommandHandler("todayMint", today_mint))
+    app.add_handler(CommandHandler("todayHindu", today_hindu))
 
     app.run_polling()
 
